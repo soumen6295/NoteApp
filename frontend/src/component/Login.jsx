@@ -5,6 +5,7 @@ import axios from "axios";
 const Login = () => {
     const [input, setInput] = useState({
         email: "",
+        phoneNo:"",
         password: "",
     });
     const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +21,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!input.email || !input.password) {
+        if (!input.email|| !input.phoneNo || !input.password) {
             alert("Please fill in all fields.");
             return;
         }
@@ -30,7 +31,7 @@ const Login = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                withCredentials: true
+                withCredentials: true,
             });
 
             if (res.data.success) {
@@ -58,6 +59,12 @@ const Login = () => {
                         <label htmlFor="email" className="form-label">Email</label>
                         <input id="email"  name="email" type="email" className="form-control" placeholder="Enter your email" value={input.email} onChange={handleChange} disabled={isLoading} required />
                     </div>
+
+                    <div className="mb-3">
+                        <label htmlFor="phoneNo" className="form-label">Phone Number</label>
+                        <input id="phoneNo"  name="phoneNo" type="phoneNo" className="form-control" placeholder="Enter your phoneNo" value={input.phoneNo} onChange={handleChange} disabled={isLoading} required />
+                    </div>
+
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">Password</label>
                         <input id="password"  name="password"  type="password"  className="form-control"  placeholder="Enter your password" value={input.password} onChange={handleChange} disabled={isLoading} required />

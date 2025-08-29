@@ -4,16 +4,23 @@ const todoSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "person1",
+      ref: "User",
       required: true,
     },
-    title : {
+    title: {
       type: String,
       required: true,
+      minlength: 3,
+      trim: true,
     },
-    description : {
-        type: String,
-      required: true,
+    description: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    completed: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

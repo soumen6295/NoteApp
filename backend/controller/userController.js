@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 
 export const register = async (req, res) => {
     try {
-        const { userName, email, password } = req.body;
+        const { userName, email, phoneNo, password } = req.body;
         const existing = await userSchema.findOne({ email: email });
         if (existing) {
             return res.status(401).json({ success: false, message: "User Already Exists", });
@@ -16,6 +16,7 @@ export const register = async (req, res) => {
         const user = await userSchema.create({
             userName,
             email,
+            phoneNo,
             password: hashedPassword,
         });
         const token = jwt.sign({ id: user._id }, process.env.secretKey, {
@@ -31,8 +32,11 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = await userSchema.findOne({ email: email });
+        const { email, phoneNo, password } = req.body;
+        const user = await userSchema.findOne({
+      $or: [{ email: email }, { phoneNo: phoneNo }]
+    });
+
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
         } else {
